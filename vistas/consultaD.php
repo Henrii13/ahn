@@ -39,7 +39,6 @@ $sucursal="";
 
 
 
-
 ///////// LO QUE OCURRE AL TECLEAR SOBRE EL INPUT DE BUSQUEDA ////////////
 if(isset($_POST['equipo']))
 {
@@ -130,17 +129,17 @@ if ($buscarAlumnos->num_rows > 0)
 					<td>' . $row['doc_fechafin'] . '</td>
 					<td>' . $row['doc_estado'] . '</td>
 										';
-		
+										
 				
 		if($rol==1){
 			$tabla .= '	
 			
 					<td>
-					' . $row['doc_cedula_pk'] . '</td>';
-					/*<select class="form-control" id="controlBuscador" name="Usuario"    onchange="actualizacion2(this.value,' .$row["doc_id"] . ')">
+					' . $row['doc_cedula_pk'] . '
+					<select class="form-control" id="controlBuscador" name="Usuario"    onchange="actualizacion2(this.value,' .$row["doc_id"] . ')">
 						<option value="NULL">Disponible</option>
 						<option value="M">Conservación</option>';
-					/*	foreach ($arregloUsuarios as $i => $value) {
+						foreach ($arregloUsuarios as $i => $value) {
 
 							if ($arregloUsuarios[$i] == $row['doc_cedula_pk']) {
 								$tabla .= '<option value="' . $arregloUsuarios[$i] . '" selected >' . $arregloUsuarios[$i] . ' </option>';
@@ -150,11 +149,16 @@ if ($buscarAlumnos->num_rows > 0)
 						}
 
 					$tabla .= '		</select>
-						</td>';*/
+						</td>';
 					}
 					$tabla .= '
 					<td>' . $row['doc_nota'] . '</td>';
-                   
+					$docid=$row['doc_id'];
+					$sql = "SELECT * FROM solicitud WHERE soli_doc_id =$docid   and soli_user_cedula='$ceduser' ORDER BY soli_id DESC LIMIT 1;";
+					//echo $sql;
+					$res = conn()->query($sql);
+					$row2= $res->fetch_assoc();    
+			              
 					if($row['doc_estado']=="Disponible" AND $rol==3 ){
 						
 						$tabla .= '	
@@ -167,11 +171,23 @@ if ($buscarAlumnos->num_rows > 0)
 							
 							';
 						
-				}elseif($row['doc_estado']=="Ocupado" AND $rol==3 AND $row['doc_cedula_pk']==$ceduser){
+				}elseif($row['doc_estado']=="Ocupado" AND $rol==3 AND $row['doc_cedula_pk']==$ceduser 	AND $row2['soli_estado']=="Entregado"  ){
 						
 					$tabla .= '	
 						<td><a href="index.php?op=1&d=' . $d_det_final . '">
 							Devolver
+						</a>
+					
+						</td>
+						
+						
+						';
+					
+				}elseif($row['doc_estado']=="Ocupado" AND $rol==3 AND $row['doc_cedula_pk']==$ceduser 	AND $row2['soli_estado']=="Solicita"  ){
+						
+					$tabla .= '	
+						<td><a href="">
+							Espera
 						</a>
 					
 						</td>
@@ -212,7 +228,7 @@ if ($buscarAlumnos->num_rows > 0)
 					
 					
 			
-				if($row['doc_estado']=="Ocupado" AND $rol==2 OR $rol==1){
+			/*	if($row['doc_estado']=="Ocupado" AND $rol==2 ){
 					$tabla .= '	
 
 				
@@ -240,7 +256,7 @@ if ($buscarAlumnos->num_rows > 0)
 						</a></td>
 						';
 						}
-						$tabla.='</tr>';
+						$tabla.='</tr>';*/
 	}
 
 	$tabla.='</table>';

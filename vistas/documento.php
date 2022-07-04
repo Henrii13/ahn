@@ -15,7 +15,7 @@
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
-	<script src="assets/select2/select2.min.js"></script>
+
 
 
 	
@@ -96,7 +96,7 @@
 					}
 					mysqli_query($cn, $sql2);
 					mysqli_query($cn, $sql);
-					header("location: index.php?op=1");
+					
 				}
 				echo $c->get_list( $user->getrol());
 			}	
@@ -165,14 +165,19 @@
 						}
 						
 				
-				
-					//NOTIFICACIONES
-				//------------------------------------------------------------------------------
+						$('.selectpicker').selectpicker();
+		function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("a") == -1) {
+    x.className = x.className.replace("hidden", "a");
+  } else { 
+    x.className = x.className.replace("a", "hidden");
+  }
+}
+$(document).ready(function(){
+		$('#controlBuscador').select2();
+	});
 			
-			
-		
-
-				//------------------------------------------------------------------------------
 	  </script>
 	 
 	
@@ -187,13 +192,11 @@
   
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
-
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
 
 	<!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> <script src="sidebars.js"></script>
 	
 	
 	 

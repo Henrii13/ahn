@@ -29,8 +29,8 @@ if(isset($_SESSION['user'])){
                 }
                 if($_GET["op"]=='2'){
                     include_once 'vistas/solicitud.php';
-                }elseif($_GET["op"]=='4' && isset($_GET["d"])){
-                    include_once 'vistas/solicitud.php?op=4&d=' . $_GET["d"] . '';
+                }elseif($_GET["op"]=='2' && isset($_GET["d"])){
+                    include_once 'vistas/solicitud.php?op=2&d=' . $_GET["d"] . '';
                 }
                
             }else{

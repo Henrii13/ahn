@@ -466,9 +466,21 @@ public function get_form($id=NULL){
 				WHERE doc_id=$id ;";
 		$res = $this->con->query($sql);
 		$row = $res->fetch_assoc();
-		
+		$doc=$row['doc_id'];
 		$num = $res->num_rows;
 
+		$sql2 = "SELECT *
+		FROM solicitud 
+		WHERE soli_doc_id=$doc ORDER BY soli_id  DESC LIMIT 1;";
+	
+		
+		$res2 = $this->con->query($sql2);
+		$row2 = $res2->fetch_assoc();
+		if(!empty($row2['soli_estado'])){
+			$estadosoli=$row2['soli_estado'];
+		}
+		
+		echo $sql2,$row2['soli_estado']; ;
         //Si es que no existiese ningun registro debe desplegar un mensaje 
         //$mensaje = "tratar de eliminar el vehiculo con id= ".$id;
         //echo $this->_message_error($mensaje);
@@ -717,7 +729,7 @@ public function get_form($id=NULL){
        
        
 			
-			if($row['doc_estado']=="Disponible" AND $rol==3){
+			if($row['doc_estado']=="Disponible" AND $rol==3 ){
 			
 			$html .= '
 			<form method="post" id="comment_form">
@@ -733,7 +745,7 @@ public function get_form($id=NULL){
 					   ';
 			
 					}
-			if($row['doc_estado']=="Ocupado" AND $rol==3 AND $row['doc_cedula_pk']==$ceduser){
+			if($row['doc_estado']=="Ocupado" AND $estadosoli == "Entregado" AND $rol==3 AND $row['doc_cedula_pk']==$ceduser){
 						
 				$html .= '	
 				<form method="post" id="comment_form">
@@ -741,6 +753,7 @@ public function get_form($id=NULL){
 					<input type="hidden" id="doc_id" name="doc_id" value="' . $row['doc_id']  . '">
 					
 					<input type="hidden" name="estado" value="Disponible">
+					<input type="hidden" name="estado2" value="Devolver">
 					
 					
 					<input type="submit"  name="post" id="post" class="btn btn-lg btn-info" value="Devolver" />
@@ -752,7 +765,7 @@ public function get_form($id=NULL){
 						
 					}
 				
-			if($row['doc_estado']=="Ocupado" AND $rol==2){
+			if($row['doc_estado']=="Ocupado" AND $estadosoli == "Solicita" AND $rol==2){
 			
 			$html .= '
 			<form method="post" id="comment_form">
@@ -767,7 +780,7 @@ public function get_form($id=NULL){
 			
 					}
 
-			if($row['doc_estado']=="Ocupado" AND $rol==1){
+			if($row['doc_estado']=="Ocupado" AND $estadosoli == "Despacho" AND $rol==1){
 			
 			$html .= '
 			<form method="post" id="comment_form">
@@ -781,8 +794,19 @@ public function get_form($id=NULL){
 					   ';
 			
 					}
-       
-       
+			if($row['doc_estado']=="Disponible" AND $estadosoli == "Devolver" AND $rol==1){
+			
+			$html .= '
+			<form method="post" id="comment_form">
+							<input type="hidden" id="doc_id" name="doc_id" value="' . $row['doc_id']  . '">
+							<input type="hidden" name="estado" value="Recibido">
+				   		    <input type="submit"  name="post" id="post" class="btn btn-lg btn-info" value="Recibir" />
+									
+								   </form>
+								   ';
+						
+								}
+					
 			
 		
 			

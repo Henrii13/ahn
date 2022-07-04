@@ -502,7 +502,7 @@ public function get_form($id=NULL){
 				</div>
 			
 				<div class="col-sm-1 " >
-					<a  class="btn btn-primary nav-link  " href="index.php?op=4&d=' . $d_new_final . '">Nuevo</a></div>
+					<a  class="btn btn-primary nav-link  " href="index.php?op=1">Nuevo</a></div>
 				</div>
 		</div>
 			<br>
@@ -535,20 +535,24 @@ public function get_form($id=NULL){
 		
 	}
 	
-	public function get_detail_solicitud($id){
+	public function get_detail_solicitud($id,$ceduser,$rol){
 		$sql = "SELECT *
 				FROM solicitud 
 				WHERE soli_id=$id ;";
+		echo $sql;
 		$res = $this->con->query($sql);
 		$row = $res->fetch_assoc();
+		echo $sql, $row['soli_user_cedula'];
         $cedula=$row['soli_user_cedula'];
         $doc=$row['soli_doc_id'];
+
         $sql2 = "SELECT *
 				FROM  usuarios
-				WHERE user_cedula = $cedula";
+				WHERE user_cedula = '$cedula'";
+				
 		$res2 = $this->con->query($sql2);
 		$row2 = $res2->fetch_assoc();
-
+		echo $sql2;
         $sql3 = "SELECT *
 				FROM documento
 				WHERE 	doc_id =$doc ;";
@@ -556,7 +560,7 @@ public function get_form($id=NULL){
 		$row3 = $res3->fetch_assoc();
 		
 		$num = $res->num_rows;
-
+		echo $sql3;
         //Si es que no existiese ningun registro debe desplegar un mensaje 
         //$mensaje = "tratar de eliminar el vehiculo con id= ".$id;
         //echo $this->_message_error($mensaje);
@@ -839,17 +843,50 @@ public function get_form($id=NULL){
 				
 			</div>
 		
-				
+					
 			
 				
-		<br>		
+		<br><div class="col-sm-2	">	';	
+
+		/*if($row['soli_estado']=="Solicita" AND $rol==2){
 			
-<div class="text-center">
-	<a href="vistas/reporte_user.php" class="text-center btn btn-secondary btn-lg" >Reporte</a>
-	<a href="index.php?op=4" class="text-center btn btn-primary btn-lg" >Regresar</a>
-</div>
-<br>	<br><br>	
-';
+			$html .= '
+			<form method="post" id="comment_form">
+				<input type="hidden" id="doc_id" name="doc_id" value="' . $row['soli_doc_id']  . '">
+				<input type="hidden" name="estado" value="Despacho">
+				
+				
+				<input type="submit"  name="post" id="post" class="btn btn-lg btn-info" value="Despachar" />
+			
+		   </form>
+					   ';
+			
+					}
+
+
+			if($row['soli_estado']=="Ocupado" AND $rol==1){
+			
+			$html .= '
+			<form method="post" id="comment_form">
+						<input type="hidden" id="doc_id" name="doc_id" value="' . $row['doc_id']  . '">
+						<input type="hidden" name="estado" value="Entregado">
+						
+						
+						 <input type="submit"  name="post" id="post" class="btn btn-lg btn-info" value="Entregar" />
+						
+					   </form>
+					   ';
+			
+					}*/
+					$html .= '	
+			
+					   </div> 
+					   <div class="col-sm-4">
+					   <a href="index.php?op=2" class="text-center btn btn-primary btn-lg" >Regresar</a></td>
+					   </div> 
+					   </div>';
+			
+
 				
 				return $html;
 		}
